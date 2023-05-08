@@ -54,7 +54,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: gcr.io/${{ secrets.PROJECT_ID }}/${{ env.GCP_PROJECT }}:${{ github.sha }}
+        tags: gcr.io/${{ env.GCP_PROJECT }}/${{ env.GCP_PROJECT }}:${{ github.sha }}
         
     - name: Deploy to GKE
       run: |
