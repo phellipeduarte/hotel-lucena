@@ -48,13 +48,16 @@ jobs:
       run: |
         gcloud container clusters get-credentials ${{ env.GCP_CLUSTER }} --region=${{ env.GCP_REGION }}
         kubectl config current-context
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: gcr.io/${{ secrets.PROJECT_ID }}/my-app:${{ github.sha }}
         
     - name: Deploy to GKE
       run: |
-        export IMAGE=gcr.io/${{ env.GCP_PROJECT }}/${{ env.APP_NAME }}:${{ github.sha }}
-        docker build --tag $IMAGE .
-        docker tag $IMAGE $IMAGE-dev
-        docker push $IMAGE
         kubectl apply -f k8s/
         
     - name: Verify deployment
