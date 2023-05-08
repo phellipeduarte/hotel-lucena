@@ -52,7 +52,7 @@ jobs:
     - name: Deploy to GKE
       run: |
         export IMAGE=gcr.io/${{ env.GCP_PROJECT }}/${{ env.APP_NAME }}:${{ github.sha }}
-        docker build -t .
+        docker build -t $IMAGE .
         docker tag $IMAGE $IMAGE-dev
         docker push $IMAGE
         kubectl apply -f k8s/
